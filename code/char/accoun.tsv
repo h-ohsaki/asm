@@ -1,0 +1,5 @@
+id	uid	gid	name	home	shell
+root	0	0	root	/root	/bin/sh
+daemon	1	1	daemon	/usr/sbin	/usr/sbin/nologin
+nobody	65534	65534	nobody	/nonexistent	/usr/sbin/nologin
+ohsaki	1000	1000	Hiroyuki Ohsaki	/home/ohsaki	/usr/bin/fish

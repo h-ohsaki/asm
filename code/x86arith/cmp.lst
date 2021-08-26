@@ -1,0 +1,44 @@
+
+GAS LISTING cmp.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4              		## 「レジスタの値 - 即値」に基づき ZF/SF を設定する
+   5 0000 B8785634 		movl	$0x12345678, %eax	# eax:0x12345678 
+   5      12
+   6 0005 3C78     		cmpb	$0x78, %al		# of:0 sf:0 zf:1 af:0 pf:1 cf:0
+   7 0007 3C79     		cmpb	$0x78 + 1, %al		# of:0 sf:1 zf:0 af:1 pf:1 cf:1
+   8 0009 663D7856 		cmpw	$0x5678, %ax		# of:0 sf:0 zf:1 af:0 pf:1 cf:0
+   9 000d 663D7756 		cmpw	$0x5678 - 1, %ax	# of:0 sf:0 zf:0 af:0 pf:0 cf:0
+  10 0011 3D111111 		cmpl	$0x11111111, %eax	# of:0 sf:0 zf:0 af:0 pf:0 cf:0
+  10      11
+  11 0016 3D000000 		cmpl	$0x80000000, %eax	# of:1 sf:1 zf:0 af:0 pf:1 cf:1
+  11      80
+  12              	
+  13              		## 「メモリの値 - 即値」に基づき ZF/SF を設定する
+  14 001b 803D0000 		cmpb	$0x12, val_b		# of:0 sf:0 zf:1 af:0 pf:1 cf:0
+  14      000012
+  15 0022 803D0000 		cmpb	$0xff, val_b		# of:0 sf:0 zf:0 af:1 pf:0 cf:1
+  15      0000FF
+  16 0029 66813D01 		cmpw	$0x1234, val_w		# of:0 sf:0 zf:1 af:0 pf:1 cf:0
+  16      00000034 
+  16      12
+  17 0032 66813D01 		cmpw	$0x1000, val_w		# of:0 sf:0 zf:0 af:0 pf:0 cf:0
+  17      00000000 
+  17      10
+  18 003b 813D0300 		cmpl	$0x12345678, val_l	# of:0 sf:0 zf:1 af:0 pf:1 cf:0
+  18      00007856 
+  18      3412
+  19 0045 813D0300 		cmpl	$0x12345678 + 1, val_l	# of:0 sf:1 zf:0 af:1 pf:1 cf:1
+  19      00007956 
+  19      3412
+  20              	
+  21 004f B8010000 		movl	$1, %eax
+  21      00
+  22 0054 CD80     		int	$0x80
+  23              		.data
+  24 0000 12       	val_b:	.byte	0x12
+  25 0001 3412     	val_w:	.word	0x1234
+  26 0003 78563412 	val_l:	.long	0x12345678

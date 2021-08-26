@@ -1,0 +1,17 @@
+main:
+	# i = 123
+	movl	$123, i
+	movl	i, %eax
+	# i = i + 1
+	addl	$1, %eax
+	movl	%eax, i
+	# j = 456
+	movl	$456, j
+	#j = i + j
+	movl	i, %edx
+	movl	j, %eax
+	addl	%edx, %eax
+	movl	%eax, j
+	# return j
+	movl	j, %eax
+	ret

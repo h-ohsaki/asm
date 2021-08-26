@@ -1,0 +1,47 @@
+
+GAS LISTING xchg.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4              		# 汎用レジスタ同士の値の交換
+   5 0000 B8785634 		movl	$0x12345678, %eax	# eax:0x12345678
+   5      12
+   6 0005 B9EFCDAB 		movl	$0x89abcdef, %ecx	# ecx:0x89abcdef
+   6      89
+   7 000a BA332211 		movl	$0x00112233, %edx	# edx:0x00112233
+   7      00
+   8              						# al:0x78 cl:0xef
+   9 000f 86C1     		xchgb	%al, %cl		# al:0xef cl:0x78
+  10              		
+  11              						# ax:0x56ef cx:0xcd78
+  12 0011 6691     		xchgw	%ax, %cx		# ax:0xcd78 cx:0x56ef
+  13              						# eax:0x1234cd78 ecx:0x89ab56ef
+  14 0013 91       		xchgl	%eax, %ecx		# eax:0x89ab56ef ecx:0x1234cd78
+  15 0014 87CA     		xchgl	%ecx, %edx		# ecx:0x00112233 edx:0x1234cd78
+  16              		# 汎用レジスタとメモリの値の交換
+  17              						# al:0xef val_b:0x12
+  18 0016 86050000 		xchgb	%al, val_b		# al:0x12 val_b:0xef
+  18      0000
+  19              						# ax:0x5612 val_w:0x1234
+  20 001c 66870501 		xchgw	%ax, val_w		# ax:0x1234 val_w:0x5612
+  20      000000
+  21              						# eax:0x89ab1234 val_l:0x12345678
+  22 0023 87050300 		xchgl	%eax, val_l		# eax:0x12345678 val_l:0x89ab1234
+  22      0000
+  23              		
+  24              		# 間接メモリ参照の例
+  25              		# EAX ←→ [EDX + 3]
+  26 0029 BA000000 		movl	$val_b, %edx
+  26      00
+  27              						# eax:0x12345678 val_l:0x89ab1234
+  28 002e 874203   		xchgl	%eax, 3(%edx)		# eax:0x89ab1234 val_l:0x12345678
+  29              		
+  30 0031 B8010000 		movl	$1, %eax
+  30      00
+  31 0036 CD80     		int	$0x80
+  32              		.data
+  33 0000 12       	val_b:	.byte	0x12
+  34 0001 3412     	val_w:	.word	0x1234
+  35 0003 78563412 	val_l:	.long	0x12345678

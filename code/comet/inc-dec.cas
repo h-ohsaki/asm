@@ -1,0 +1,13 @@
+; GR1 レジスタをさまざまな方法で +1 するプログラム
+MAIN	START
+	LD	GR1, =123	; GR1 ← 123 (=123 はリテラル)
+	LD	GR2, =1
+	ADDA	GR1, GR2	; GR1 に GR2 (= 1) を加算
+	ADDL	GR1, GR2	; GR1 に GR2 (= 1) を加算
+	ADDA	GR1, =1		; GR1 に 1 を加算 (=1 はリテラル)
+	ADDL	GR1, =1		; GR1 に 1 を加算 (=1 はリテラル)
+	LAD	GR1, 1, GR1	; 1 + GR1 の実効アドレスを格納
+	SUBA	GR1, =-1	; GR1 から -1 を減算 (=1 はリテラル)
+	SUBL	GR1, =-1	; GR1 から -1 を減算 (=1 はリテラル)
+	RET
+	END

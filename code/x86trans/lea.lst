@@ -1,0 +1,23 @@
+
+GAS LISTING lea.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4              		## val_l の実効アドレスをロード
+   5 0000 8D050000 		lea	val_l, %eax		# eax:0x0804a000
+   5      0000
+   6              		## subr の実効アドレスをロード
+   7 0006 8D051300 		lea	subr, %eax		# eax:0x08049013
+   7      0000
+   8              		
+   9 000c B8010000 		movl	$1, %eax
+   9      00
+  10 0011 CD80     		int	$0x80
+  11              		
+  12              	subr:
+  13 0013 C3       		ret
+  14              		
+  15              		.data
+  16 0000 EFCDAB89 	val_l:	.long	0x89abcdef

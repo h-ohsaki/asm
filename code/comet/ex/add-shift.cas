@@ -1,0 +1,6 @@
+ADDSHFT	START
+	LAD	GR1, 123	; GR1 ← 123
+	ADDA	GR1, =456	; GR1 ← <+> 456
+	SRA	GR1, 3		; GR1 ← <>>> 3
+	RET
+	END

@@ -1,0 +1,8 @@
+COPYLOW	START
+	LAD	GR1, #1234	; GR1 ← 0x1234
+	LAD	GR2, #5678	; GR2 ← 0x5678
+	AND	GR1, =#00FF	; GR1 ← <&> 0x00ff
+	AND	GR2, =#FF00	; GR2 ← <&> 0xff00
+	OR	GR2, GR1	; GR2 ← <|> GR1
+	RET
+	END

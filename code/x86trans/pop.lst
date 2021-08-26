@@ -1,0 +1,50 @@
+
+GAS LISTING pop.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4              		# スタックを 0x00〜0x1b で埋める
+   5 0000 6818191A 		pushl	$0x1b1a1918		# esp:0xff9ab1ec
+   5      1B
+   6 0005 68141516 		pushl	$0x17161514		# esp:0xff9ab1e8
+   6      17
+   7 000a 68101112 		pushl	$0x13121110		# esp:0xff9ab1e4
+   7      13
+   8 000f 680C0D0E 		pushl	$0x0f0e0d0c		# esp:0xff9ab1e0
+   8      0F
+   9 0014 6808090A 		pushl	$0x0b0a0908		# esp:0xff9ab1dc
+   9      0B
+  10 0019 68040506 		pushl	$0x07060504		# esp:0xff9ab1d8
+  10      07
+  11 001e 68000102 		pushl	$0x03020100		# esp:0xff9ab1d4
+  11      03
+  12              	
+  13              		# レジスタへのポップ (16 ビット)
+  14 0023 6658     		popw	%ax			# esp:0xff9ab1d6 ax:0x0100
+  15 0025 6659     		popw	%cx			# esp:0xff9ab1d8 cx:0x0302
+  16 0027 665A     		popw	%dx			# esp:0xff9ab1da dx:0x0504
+  17              		
+  18              		# レジスタへのポップ (32 ビット)
+  19 0029 58       		popl	%eax			# esp:0xff9ab1de eax:0x09080706
+  20 002a 59       		popl	%ecx			# esp:0xff9ab1e2 ecx:0x0d0c0b0a
+  21 002b 5A       		popl	%edx			# esp:0xff9ab1e6 edx:0x11100f0e
+  22              		
+  23              		# メモリへのポップ
+  24 002c 668F0501 		popw	val_w			# esp:0xff9ab1e8 val_w:0x1312
+  24      000000
+  25 0033 8F050300 		popl	val_l			# esp:0xff9ab1ec val_l:0x17161514
+  25      0000
+  26 0039 B9030000 		movl	$3, %ecx		# esp:0xff9ab1ec
+  26      00
+  27 003e 8F810000 		popl	val_b(%ecx)		# esp:0xff9ab1f0 val_l:0x1b1a1918
+  27      0000
+  28              		
+  29 0044 B8010000 		movl	$1, %eax
+  29      00
+  30 0049 CD80     		int	$0x80
+  31              		.data
+  32 0000 12       	val_b:	.byte	0x12
+  33 0001 3412     	val_w:	.word	0x1234
+  34 0003 78563412 	val_l:	.long	0x12345678

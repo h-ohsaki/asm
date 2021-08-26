@@ -1,0 +1,17 @@
+; サブルーチン呼び出しのサンプル
+MAIN	START
+	LD	GR1, =456
+	PUSH	0, GR1		; 第 2 引数をプッシュ
+	PUSH	123		; 第 1 引数をプッシュ
+	CALL	ADD		; GR1 ← 123 + 456 になる
+	RET
+	
+; スタック上の 2 つの値の和を GR1 レジスタに格納する
+ADD	POP	GR3		; リターンアドレスを取り出して保存する
+	POP	GR1		; 第 1 引数を取り出す
+	POP	GR2		; 第 2 引数を取り出す
+	ADDA	GR1, GR2	; GR1 ← <+> GR2
+	PUSH	0, GR3		; リターンアドレスを戻す (JUMP 0, GR3 でもよい)
+	RET
+	
+	END

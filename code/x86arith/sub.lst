@@ -1,0 +1,58 @@
+
+GAS LISTING sub.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4              		## レジスタから即値を減算
+   5 0000 B8785634 		movl	$0x12345678, %eax
+   5      12
+   6 0005 2C78     		subb	$0x78, %al		# sf:0 zf:1 cf:0 al:0x00
+   7 0007 662D0156 		subw	$0x5600+1, %ax		# sf:1 zf:0 cf:1 ax:0xffff
+   8 000b 2D111111 		subl	$0x11111111, %eax	# sf:0 zf:0 cf:0 eax:0x0123eeee
+   8      11
+   9              		
+  10              		## レジスタからレジスタの値を減算
+  11 0010 B9111111 		movl	$0x11111111, %ecx	#                ecx:0x11111111
+  11      11
+  12              						#                al:0xee
+  13 0015 28C8     		subb	%cl, %al		# sf:1 zf:0 cf:0 al:0xdd
+  14              						#                ax:0xeedd
+  15 0017 6629C8   		subw	%cx, %ax		# sf:1 zf:0 cf:0 ax:0xddcc
+  16              						#                eax:0x0123ddcc
+  17 001a 29C8     		subl	%ecx, %eax		# sf:1 zf:0 cf:1 eax:0xf012ccbb
+  18              		
+  19              		## レジスタからメモリの値を減算
+  20 001c B8785634 		movl	$0x12345678, %eax
+  20      12
+  21              						#                al:0x78
+  22 0021 2A050000 		subb	val_b, %al		# sf:0 zf:1 cf:0 al:0x00
+  22      0000
+  23              						#                ax:0x5600
+  24 0027 662B0501 		subw	val_w, %ax		# sf:1 zf:0 cf:1 ax:0xff88
+  24      000000
+  25              						#                eax:0x1234ff88
+  26 002e 2B050300 		subl	val_l, %eax		# sf:0 zf:0 cf:0 eax:0x0000a910
+  26      0000
+  27              		
+  28              		## メモリの値からレジスタの値を減算
+  29 0034 B8111111 		movl	$0x11111111, %eax
+  29      11
+  30              						#                val_b:0x78
+  31 0039 28050000 		subb	%al, val_b		# sf:0 zf:0 cf:0 val_b:0x67
+  31      0000
+  32              						#                val_w:0x5678
+  33 003f 66290501 		subw	%ax, val_w		# sf:0 zf:0 cf:0 val_w:0x4567
+  33      000000
+  34              						#                val_l:0x12345678
+  35 0046 29050300 		subl	%eax, val_l		# sf:0 zf:0 cf:0 val_l:0x01234567
+  35      0000
+  36              	
+  37 004c B8010000 		movl	$1, %eax
+  37      00
+  38 0051 CD80     		int	$0x80
+  39              		.data
+  40 0000 78       	val_b:	.byte	0x78
+  41 0001 7856     	val_w:	.word	0x5678
+  42 0003 78563412 	val_l:	.long	0x12345678

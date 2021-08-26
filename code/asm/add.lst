@@ -1,0 +1,36 @@
+   1              		.file	"add.c"
+   2              		.text
+   3              		.globl	i
+   4              		.data
+   5              		.align 4
+   6              		.type	i, @object
+   7              		.size	i, 4
+   8              	i:
+   9 0000 7B000000 		.long	123
+  10              		.text
+  11              		.globl	main
+  12              		.type	main, @function
+  13              	main:
+  14              	.LFB0:
+  15              		.cfi_startproc
+  16 0000 A1000000 		movl	i, %eax
+  16      00
+  17 0005 05C80100 		addl	$456, %eax
+  17      00
+  18 000a A3000000 		movl	%eax, i
+  18      00
+  19 000f B8000000 		movl	$0, %eax
+  19      00
+  20 0014 C3       		ret
+  21              		.cfi_endproc
+  22              	.LFE0:
+  23              		.size	main, .-main
+  24              		.ident	"GCC: (Debian 10.2.1-6) 10.2.1 20210110"
+  25              		.section	.note.GNU-stack,"",@progbits
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 add.c
+               add.s:8      .data:0000000000000000 i
+               add.s:13     .text:0000000000000000 main
+
+NO UNDEFINED SYMBOLS

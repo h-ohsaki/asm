@@ -1,0 +1,10 @@
+; ラベルの書き方のサンプル
+MAIN	START			; START のラベルは必須
+L	LD	GR1, SRC	; ラベルは一文字でもよい
+S123456	ST	GR1, DST	; 英大文字で始まり、英大文字・数字が続く
+	JUMP	L
+	RET
+SRC	DC	123
+DST	DS	1
+ENDLABEL DS	0		; ラベルの長さは 8 文字まで
+	END			

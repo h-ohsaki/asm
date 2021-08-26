@@ -1,0 +1,26 @@
+
+GAS LISTING call.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4              		## アドレスを指定してコール (アセンブラが相対アドレスに変換)
+   5 0000 E8150000 		call	subr			# subr:0x0804901a
+   5      00
+   6              		## レジスタが指す番地をコール
+   7 0005 8D051A00 		lea	subr, %eax		# eax:0x0804901a
+   7      0000
+   8 000b FFD0     		call	*%eax
+   9              		## メモリに格納された番地をコール
+  10 000d FF150000 		call	*val_l			# val_l:0x0804901a
+  10      0000
+  11              	
+  12 0013 B8010000 		movl	$1, %eax
+  12      00
+  13 0018 CD80     		int	$0x80
+  14              		## リターンするだけのサブルーチン
+  15 001a C3       	subr:	ret
+  16              	
+  17              		.data
+  18 0000 1A000000 	val_l:	.long	subr			#サブルーチンのアドレスを格納

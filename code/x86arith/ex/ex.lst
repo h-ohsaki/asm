@@ -1,0 +1,53 @@
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4              		## AX ← 123 + 456
+   5 0000 66B87B00 		mov	$123, %ax		# ax:0x007b
+   6 0004 6605C801 		add	$456, %ax		# ax:0x0243
+   7              	
+   8              		## EAX ← (123 + 456) / 78
+   9 0008 BA000000 		mov	$0, %edx		# edx:0x00000000
+   9      00
+  10 000d B87B0000 		mov	$123, %eax		# eax:0x0000007b
+  10      00
+  11 0012 05C80100 		add	$456, %eax		# eax:0x00000243
+  11      00
+  12 0017 BB4E0000 		mov	$78, %ebx		# ebx:0x0000004e
+  12      00
+  13              						# EAX ← EDX:EAX / EBX
+  14 001c F7F3     		div	%ebx			# 商:eax:0x00000007 剰余:edx:0x00000021
+  15              	
+  16              		## EAX ← 7890 / (123 + 456)
+  17 001e BA000000 		mov	$0, %edx		# edx:0x00000000
+  17      00
+  18 0023 B8D21E00 		mov	$7890, %eax		# eax:0x00001ed2
+  18      00
+  19 0028 BB7B0000 		mov 	$123, %ebx		# ebx:0x0000007b
+  19      00
+  20 002d 81C3C801 		add	$456, %ebx		# ebx:0x00000243
+  20      0000
+  21              						# EAX ← EDX:EAX / EBX
+  22 0033 F7F3     		div	%ebx			# 商:eax:0x0000000d 剰余:edx:0x0000016b
+  23              		
+  24              		## EAX ← (12 + 34) / (5 - 6) * (7 - 89)
+  25 0035 B80C0000 		mov	$12, %eax		# eax:0x0000000c
+  25      00
+  26 003a 83C022   		add	$34, %eax		# eax:0x0000002e
+  27 003d BB050000 		mov	$5, %ebx		# ebx:0x00000005
+  27      00
+  28 0042 83C3FA   		add	$-6, %ebx		# ebx:0xffffffff
+  29 0045 BA000000 		mov	$0, %edx		# edx:0x00000000
+  29      00
+  30              						# EAX ← EDX:EAX / EBX
+  31 004a F7FB     		idiv	%ebx			# 商:eax:0xffffffd2 剰余:edx:0x00000000
+  32 004c BB070000 		mov	$7, %ebx		# ebx:0x00000007
+  32      00
+  33 0051 83C3A7   		add	$-89, %ebx		# ebx:0xffffffae
+  34              						# EDX:EAX ← EAX * EBX
+  35 0054 F7EB     		imul	%ebx			# eax:0x00000ebc
+  36              		
+  37 0056 B8010000 		movl	$1, %eax
+  37      00
+  38 005b CD80     		int	$0x80
+  39              		.data
+  40 0000 00       	v:	.byte	0

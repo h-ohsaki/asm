@@ -1,0 +1,34 @@
+
+GAS LISTING dec.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4 0000 B8785634 		movl	$0x12345678, %eax	#                eax:0x12345678
+   4      12
+   5 0005 B9000000 		movl	$0x00000000, %ecx	#                ecx:0x00000000
+   5      00
+   6              		# レジスタの値を -1 する
+   7 000a FEC8     		decb	%al			# sf:0 zf:0 cf:0 al:0x77
+   8 000c FECC     		decb	%ah			# sf:0 zf:0 cf:0 ah:0x55
+   9 000e 6648     		decw	%ax			# sf:0 zf:0 cf:0 ax:0x5576
+  10 0010 6649     		decw	%cx			# sf:1 zf:0 cf:0 cx:0xffff
+  11 0012 48       		decl	%eax			# sf:0 zf:0 cf:0 eax:0x12345575
+  12 0013 49       		decl	%ecx			# sf:0 zf:0 cf:0 ecx:0x0000fffe
+  13              	
+  14              		# メモリの値を -1 する
+  15 0014 FE0D0000 		decb	val_b			# sf:1 zf:0 cf:0 val_b:0xff
+  15      0000
+  16 001a 66FF0D01 		decw	val_w			# sf:0 zf:0 cf:0 val_w:0x1233
+  16      000000
+  17 0021 FF0D0300 		decl	val_l			# sf:1 zf:0 cf:0 val_l:0x89abcdee
+  17      0000
+  18              	
+  19 0027 B8010000 		movl	$1, %eax
+  19      00
+  20 002c CD80     		int	$0x80
+  21              		.data
+  22 0000 00       	val_b:	.byte	0x00
+  23 0001 3412     	val_w:	.word	0x1234
+  24 0003 EFCDAB89 	val_l:	.long	0x89abcdef

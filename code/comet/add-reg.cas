@@ -1,0 +1,8 @@
+; 123 + 456 を加算するプログラム	
+MAIN	START
+	LAD	GR1, 123
+	LAD	GR1, 1, GR1
+	LAD	GR2, 456
+	ADDA	GR1, GR2
+	RET	
+	END

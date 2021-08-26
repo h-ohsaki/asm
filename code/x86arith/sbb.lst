@@ -1,0 +1,37 @@
+
+GAS LISTING sbb.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4              		## 8 バイトの SBB 命令による 16 バイトの減算
+   5 0000 66B80010 		movw	$0x1000, %ax		#                ax:0x1000
+   6 0004 66B90100 		movw	$0x0001, %cx		#                cx:0x0001
+   7 0008 28C8     		subb	%cl, %al		# sf:1 zf:0 cf:1 ax:0x10ff
+   8 000a 18EC     		sbbb	%ch, %ah		# sf:0 zf:0 cf:0 ax:0x0fff
+   9              	
+  10              		## 64 ビット - 64 ビットの減算
+  11 000c A1000000 		movl	xl_l, %eax		#                eax:0x00000000
+  11      00
+  12 0011 2B050800 		subl	yl_l, %eax		# sf:1 zf:0 cf:1 eax:0xffffffff
+  12      0000
+  13 0017 A3100000 		movl	%eax, zl_l		#                zl_l:0xffffffff
+  13      00
+  14 001c A1040000 		movl	xh_l, %eax		#                eax:0x10000000
+  14      00
+  15 0021 1B050C00 		sbbl	yh_l, %eax		# sf:0 zf:0 cf:0 eax:0x0fffffff
+  15      0000
+  16 0027 A3140000 		movl	%eax, zh_l		#                zh_l:0x0fffffff zl_l:0xffffffff
+  16      00
+  17              	
+  18 002c B8010000 		movl	$1, %eax
+  18      00
+  19 0031 CD80     		int	$0x80
+  20              		.data
+  21 0000 00000000 	xl_l:	.long	0x00000000
+  22 0004 00000010 	xh_l:	.long	0x10000000
+  23 0008 01000000 	yl_l:	.long	0x00000001
+  24 000c 00000000 	yh_l:	.long	0x00000000
+  25 0010 00000000 	zl_l:	.long	0
+  26 0014 00000000 	zh_l:	.long	0

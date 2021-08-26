@@ -1,0 +1,6 @@
+; ビット単位の否定を計算するプログラム
+MAIN	START
+	LD	GR1, =#F510	; GR1 ← 0xf510 (=#F510 はリテラル)
+	XOR	GR1, =#FFFF	; GR1 ← <^> 0xffff
+	RET
+	END

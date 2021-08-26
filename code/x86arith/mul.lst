@@ -1,0 +1,47 @@
+
+GAS LISTING mul.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4              		# レジスタとの乗算: AX ← AL * C
+   5 0000 B012     		movb	$0x12, %al		# al:0x12
+   6 0002 B134     		movb	$0x34, %cl		# cl:0x34
+   7 0004 F6E1     		mulb	%cl			# of:1 cf:1 ax:0x03a8
+   8              	
+   9              		# レジスタとの乗算: DX:AX ← AX * CX
+  10 0006 66B83412 		movw	$0x1234, %ax		# ax:0x1234
+  11 000a 66B90200 		movw	$0x0002, %cx		# cx:0x0002
+  12 000e 66F7E1   		mulw	%cx			# of:0 cf:0 dx:0x0000 ax:0x2468
+  13              	
+  14              		# レジスタとの乗算: EDX:EAX ← EAX * ECX
+  15 0011 B8785634 		movl	$0x12345678, %eax	# eax:0x12345678
+  15      12
+  16 0016 B9000001 		movl	$0x00010000, %ecx	# ecx:0x00010000
+  16      00
+  17 001b F7E1     		mull	%ecx			# of:1 cf:1 edx:0x00001234 eax:0x56780000
+  18              		
+  19              		# メモリの値との乗算: AX ← AL * [val_b]
+  20 001d B012     		movb	$0x12, %al		# al:0x12
+  21 001f F6250000 		mulb	val_b			# of:1 cf:1 ax:0x03a8
+  21      0000
+  22              		
+  23              		# メモリの値との乗算: DX:AX ← AX * [val_w]
+  24 0025 66B83412 		movw	$0x1234, %ax		# ax:0x1234
+  25 0029 66F72501 		mulw	val_w			# of:0 cf:0 dx:0x0000 ax:0x2468
+  25      000000
+  26              		
+  27              		# メモリの値との乗算: EDX:EAX ← EAX * [val_l]
+  28 0030 B8785634 		movl	$0x12345678, %eax	# eax:0x12345678
+  28      12
+  29 0035 F7250300 		mull	val_l			# of:1 cf:1 edx:0x01234567 eax:0x80000000
+  29      0000
+  30              		
+  31 003b B8010000 		movl	$1, %eax
+  31      00
+  32 0040 CD80     		int	$0x80
+  33              		.data
+  34 0000 34       	val_b:	.byte	0x34
+  35 0001 0200     	val_w:	.word	0x0002
+  36 0003 00000010 	val_l:	.long	0x10000000

@@ -1,0 +1,3 @@
+﻿dog
+cat
+mouse

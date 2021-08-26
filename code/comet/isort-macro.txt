@@ -1,0 +1,52 @@
+# 1 "isort-macro.cas"
+# 1 "<built-in>"
+# 1 "<command-line>"
+# 31 "<command-line>"
+# 1 "/usr/include/stdc-predef.h" 1 3 4
+# 32 "<command-line>" 2
+# 1 "isort-macro.cas"
+
+
+
+
+
+
+; 挿入ソート
+; GR1: 外側のループインデックス
+; GR2: 内側のループインデックス
+; A: ソートする配列
+; N: 配列の要素数
+ISORT START
+ LAD GR1, 1 ; 外側のループインデックス GR1 (1〜N-1 までループ)
+
+OUTER CPA GR1, N ; GR1 < N なら続ける
+ JPL DONE
+ JZE DONE
+
+ LD GR2, GR1 ; 内側のループインデックス GR2 (GR1〜1 までループ)
+INNER CPA GR2, =0 ; GR2 > 0 なら続ける
+ JMI NEXT
+ JZE NEXT
+ LAD GR3, -1, GR2 ; GR3 ← GR2 - 1
+ LD GR0, A, GR3 ; GR0 ← a[GR2-1]
+ CPA GR0, A, GR2 ; A[GR2 - 1] > a[GR2] なら続ける
+ JMI NEXT
+ JZE NEXT
+
+ ; A[GR2] と A[GR2-1] を交換する
+ LD GR0, A, GR2 ; GR0 = A[GR2]
+ LAD GR3, -1, GR2 ; GR3 ← GR2 - 1
+ LD GR4, A, GR3
+ ST GR4, A, GR2 ; A[GR2] = A[GR2 - 1]
+ ST GR0, A, GR3 ; a[GR2 - 1] = GR0
+ LAD GR2, -1, GR2 ; 内側のループインデックス GR2 を -1
+ JUMP INNER
+
+NEXT LAD GR1, 1, GR1 ; 外側のループインデックス GR1 を +1
+ JUMP OUTER
+
+DONE RET
+
+A DC 5,3,4,1,2
+N DC 5
+ END

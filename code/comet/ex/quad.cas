@@ -1,0 +1,5 @@
+QUAD	START
+	LAD	GR1, 123	; GR1 ← 123
+	SLA	GR1, 2		; GR1 ← <<<> 2
+	RET
+	END

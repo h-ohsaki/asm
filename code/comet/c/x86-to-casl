@@ -1,0 +1,50 @@
+#!/usr/bin/env perl
+
+use strict;
+
+my %OP_MAP = qw(mov ld add adda cmp cpa jmp jump sub suba lea lad);
+
+my $last_label = '';
+print "PROG\tSTART\tMAIN\n";
+while (<>) {
+    chomp;
+
+    # レジスタ名を置換する
+    s/eax/GR2/g;
+    s/ebx/GR3/g;
+    s/ecx/GR4/g;
+    s/edx/GR5/g;
+    s/esi/GR6/g;
+    s/edi/GR7/g;
+
+    # ラベル、命令、オペランドに分解する
+    my ( $label, $op, $opr ) = split /\t/, $_, 3;
+    $label //= '';
+    $op //= '';
+    $opr //= '';
+
+    # ラベル先頭のピリオドと末尾のコロンを削除する
+    $label =~ s/^\.//;
+    $label =~ s/:$//;
+
+    # 擬似命令はスキップする
+    next if $op =~ /^\./;
+
+    # 特定の命令を置換する
+    for my $from_op (keys %OP_MAP) {
+	$op = $OP_MAP{$from_op} if $op eq $from_op;
+    }
+    
+    $opr =~ s/DWORD PTR //;
+    $opr =~ s/^\.//;
+    $opr = "0, $opr" if $op eq 'push';
+    # 小文字を大文字に変換
+    $label =~ tr/a-z/A-Z/;
+    $op =~ tr/a-z/A-Z/;
+    $opr =~ tr/a-z/A-Z/;
+
+    # ラベルは次の行に移動させる
+    print join("\t", $last_label, $op, $opr), "\n";
+    $last_label = $label;
+}
+print "\tEND\n";

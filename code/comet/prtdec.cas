@@ -1,0 +1,38 @@
+MAIN	START
+	LAD	GR1, 12345
+	CALL	PRTDEC
+	RET
+	
+; GR1 レジスタの値を 10 進数で出力する
+; 入力
+;   GR1: 出力する値
+PRTDEC	PUSH	0, GR1
+	PUSH	0, GR2
+	PUSH	0, GR3
+	PUSH	0, GR4
+	LAD	GR2, 0		; ループカウンタ
+	
+DGTLOOP	LD	GR3, UNITS, GR2	; 桁の値 (例: 1000)
+	LAD	GR4, #0030	; 文字コード (例: '0')
+
+CNTLOOP	CPA	GR1, GR3	; まだ引けるか?
+	JMI	WRITCHR
+	SUBA	GR1, GR3
+	LAD	GR4, 1, GR4	; 文字コード + 1
+	JUMP	CNTLOOP
+	
+WRITCHR	ST	GR4, BUF, GR2	; 文字をバッファに格納
+	LAD	GR2, 1, GR2	; ループカウンタを +1
+	CPA	GR2, =5		; ループ終了? (=5 はリテラル)
+	JMI	DGTLOOP
+	
+	OUT	BUF, =5		; バッファを出力 (=5 はリテラル)
+	POP	GR4
+	POP	GR3
+	POP	GR2
+	POP	GR1
+	RET
+
+UNITS	DC	10000, 1000, 100, 10, 1	; 各桁の値のリスト
+BUF	DS	5		; 出力バッファ
+	END

@@ -1,0 +1,16 @@
+main:
+	pushl	%esi
+	pushl	%ebx
+	# i = 123
+	movl	$123, %esi
+	# i = i + 1
+	addl	$1, %esi
+	# j = 456
+	movl	$456, %ebx
+	# j = i + j
+	addl	%esi, %ebx
+	# return j
+	movl	%ebx, %eax
+	popl	%ebx
+	popl	%esi
+	ret

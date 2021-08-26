@@ -1,0 +1,32 @@
+MAIN	START
+	LAD	GR1, 10		; F_{10} を計算する
+	CALL	FIB
+	RET
+	
+; フィボナッチ数 F_n = F_{n-1} + F_{n-2}, F_0 = 1, F_1 = 1 を計算する
+; 入力: GR1: n
+; 出力: GR1: F_n
+FIB	PUSH	0, GR2		; レジスタを退避
+	CPA	GR1, =0		; n == 0? (リテラルを使用)
+	JNZ	NOT0
+	LAD	GR2, 0		; F_0 = 0
+	JUMP	FIN
+	
+NOT0	CPA	GR1, =1		; n == 1? (リテラルを使用)
+	JNZ	ABOVE1
+	LAD	GR2, 1		; F_1 = 1
+	JUMP	FIN
+	
+ABOVE1	PUSH	0, GR1		; n を保存
+	LAD	GR1, -1, GR1	; GR1 ← n - 1
+	CALL	FIB		; F_{n-1} を計算
+	LD	GR2, GR1	; F_{n-1} の値を保存
+	POP	GR1
+	LAD	GR1, -2, GR1	; GR1 ← n - 2
+	CALL	FIB		; F_{n-2} を計算
+	ADDA	GR2, GR1	; F_{n-1} に F_{n-2} を加算
+FIN	LD	GR1, GR2	; 返り値は GR1 で返す
+	POP	GR2		; レジスタを復帰
+	RET
+	
+	END

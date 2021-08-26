@@ -1,0 +1,45 @@
+
+GAS LISTING movzx.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4              		## バイトをワードにゼロ拡張
+   5 0000 B101     		mov	$1, %cl			# cl:0x01
+   6 0002 660FB6C1 		movzx	%cl, %ax		# ax:0x0001
+   7 0006 660FB605 		movzx	val_b, %ax		# ax:0x0080
+   7      00000000 
+   8              		## バイトをダブルワードにゼロ拡張
+   9 000e B1FF     		mov	$-1, %cl		# cl:0xff
+  10 0010 0FB6C1   		movzx	%cl, %eax		# eax:0x000000ff
+  11 0013 0FB60500 		movzx	val_b, %eax		# eax:0x00000080
+  11      000000
+  12              		## ワードをダブルワードにゼロ拡張
+  13 001a 66B93412 		mov	$0x1234, %cx		# cx:0x1234
+  14 001e 0FB7C1   		movzx	%cx, %eax		# eax:0x00001234
+  15 0021 0FB70501 		movzxw	val_w, %eax		# eax:0x000089ab
+  15      000000
+  16              	
+  17              		## バイトをワードに符号拡張
+  18 0028 B101     		mov	$1, %cl			# cl:0x01
+  19 002a 660FBEC1 		movsx	%cl, %ax		# ax:0x0001
+  20 002e 660FBE05 		movsx	val_b, %ax		# ax:0xff80
+  20      00000000 
+  21              		## バイトをダブルワードに符号拡張
+  22 0036 B1FF     		mov	$-1, %cl		# cl:0xff
+  23 0038 0FBEC1   		movsx	%cl, %eax		# eax:0xffffffff
+  24 003b 0FBE0500 		movsx	val_b, %eax		# eax:0xffffff80
+  24      000000
+  25              		## ワードをダブルワードに符号拡張
+  26 0042 66B93412 		mov	$0x1234, %cx		# cx:0x1234
+  27 0046 0FBFC1   		movsx	%cx, %eax		# eax:0x00001234
+  28 0049 0FBF0501 		movsxw	val_w, %eax		# eax:0xffff89ab
+  28      000000
+  29              		
+  30 0050 B8010000 		movl	$1, %eax
+  30      00
+  31 0055 CD80     		int	$0x80
+  32              		.data
+  33 0000 80       	val_b:	.byte	0x80
+  34 0001 AB89     	val_w:	.word	0x89ab

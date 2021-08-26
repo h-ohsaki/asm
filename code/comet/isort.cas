@@ -1,0 +1,39 @@
+; 挿入ソート	
+; GR1: 外側のループインデックス
+; GR2: 内側のループインデックス
+; A: ソートする配列	
+; N: 配列の要素数	
+ISORT	START
+	LAD	GR1, 1		; 外側のループインデックス i (1〜N-1 までループ)
+	
+OUTER	CPA	GR1, N		; i < N なら続ける
+	JPL	DONE
+	JZE	DONE
+
+	LD	GR2, GR1	; 内側のループインデックス j (i〜1 までループ)
+INNER	CPA	GR2, =0		; j > 0 なら続ける
+	JMI	NEXT
+	JZE	NEXT
+	LAD	GR3, -1, GR2	; GR3 ← j - 1
+	LD	GR0, A, GR3	; GR0 ← a[j-1]
+	CPA	GR0, A, GR2	; A[j - 1] > a[j] なら続ける
+	JMI	NEXT
+	JZE	NEXT
+	
+	; A[j] と A[j-1] を交換する
+	LD	GR0, A, GR2	; tmp = A[j]
+	LAD	GR3, -1, GR2	; GR3 ← j - 1
+	LD	GR4, A, GR3
+	ST	GR4, A, GR2	; A[j] = A[j - 1]
+	ST	GR0, A, GR3	; a[j - 1] = tmp
+	LAD	GR2, -1, GR2	; 内側のループインデックス j を -1
+	JUMP	INNER
+		
+NEXT	LAD	GR1, 1, GR1	; 外側のループインデックス i を +1
+	JUMP	OUTER
+	
+DONE	RET		
+		
+A	DC	5,3,4,1,2
+N	DC	5
+	END

@@ -1,0 +1,7 @@
+; マクロ命令 OUT のサンプル	
+MAIN	START
+	OUT	OBUF, OLEN	; OUT 出力領域, 出力文字長領域
+	RET
+OBUF	DC	'Hello, World!'	; 出力する文字列
+OLEN	DC	13		; 出力する文字列の長さ
+	END

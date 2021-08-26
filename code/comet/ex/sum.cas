@@ -1,0 +1,20 @@
+; 1 - 2 + 3 - 4 + ... + 99 - 100 を計算する
+SUM	START
+	LAD	GR1, 0		; GR1 ← 0 (総和)
+	LAD	GR2, 1		; GR2 ← 1 (ループカウンタ)
+	
+	; 奇数・偶数の判定
+LOOP	LD	GR3, GR2	; GR3 ← GR2
+	AND	GR3, =1		; GR3 ← <&> 1
+	JZE	EVEN		; PC ← EVEN if ZF==1
+	; 奇数なら加算
+	ADDA	GR1, GR2	; GR1 ← <+> GR2
+	JUMP	NEXT		; PC ← NEXT
+	; 偶数なら減算
+EVEN	SUBA	GR1, GR2	; GR1 ← <-> GR2
+NEXT	LAD	GR2, 1, GR2	; GR2 ← <+> 1
+	CPL	GR2, =101	; GR2 >= 101?
+	JMI	LOOP		; PC ← LOOP if SF==1
+
+	RET
+	END

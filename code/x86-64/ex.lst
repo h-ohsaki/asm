@@ -1,0 +1,33 @@
+   1              		.text
+   2              		.global	_start
+   3              	_start:
+   4 0000 B012     		movb	$0x12, %al		# AL ← 0x12
+   5 0002 66B83412 		movw	$0x1234, %ax		# AX ← 0x1234
+   6 0006 B8785634 		movl	$0x12345678, %eax	# EAX ← 0x12345678
+   6      12
+   7 000b 48B8F0DE 		movq	$0x123456789abcdef0, %rax # RAX ← 0x123456789abcdef0
+   7      BC9A7856 
+   7      3412
+   8 0015 88C3     		movb	%al, %bl		# BL ← <+> AL
+   9 0017 6689C3   		movw	%ax, %bx		# BX ← <+> AX
+  10 001a 89C3     		movl	%eax, %ebx		# EBX ← <+> EAX
+  11 001c 4889C3   		movq	%rax, %rbx		# RBX ← <+> RAX
+  12              		
+  13 001f 0412     		addb	$0x12, %al		# AL ← <+> 0x12
+  14 0021 66053412 		addw	$0x1234, %ax		# AX ← <+> 0x1234
+  15 0025 05785634 		addl	$0x12345678, %eax	# EAX ← <+> 0x12345678
+  15      12
+  16              	#	addq	$0x123456789abcdef0, %rax # 書けない!
+  17 002a 00C3     		addb	%al, %bl		# BL ← <+> AL
+  18 002c 6601C3   		addw	%ax, %bx		# BX ← <+> AX
+  19 002f 01C3     		addl	%eax, %ebx		# EBX ← <+> EAX
+  20 0031 4801C3   		addq	%rax, %rbx		# RBX ← <+> RAX
+  21              	
+  22 0034 48C7C03C 		movq	$60, %rax		# exit システムコールは 60 番
+  22      000000
+  23 003b 0F05     		syscall				# システムコール呼び出し
+
+DEFINED SYMBOLS
+                ex.s:3      .text:0000000000000000 _start
+
+NO UNDEFINED SYMBOLS

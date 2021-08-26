@@ -1,0 +1,31 @@
+$ aarch64-linux-gnu-as -a -o b.o b.s
+b.s: Assembler messages:
+b.s:7: Error: branch out of range
+AARCH64 GAS  b.s                        page 1
+
+
+   1                            .arch armv8-a
+   2                            .text
+   3                            .global _start
+   4                    _start:
+   5 ???? 00000014              b       _start          // _start への相対ジャンプ
+   6 ???? FFFFFF17              b       -4              // これも _start への相対ジャンプ
+   7 ???? 01000016              b       far_v           // 128 Mバイト以上先にジャンプ (できない)
+   8
+   9 ???? 00000000              .zero   0x08000000      // 128 M バイト分をゼロで埋める
+   9      00000000
+   9      00000000
+   9      00000000
+   9      00000000
+  10 ???? 00            far_v:  .zero   1               // 1 バイトの領域を確保
+****  Error: branch out of range
+^LAARCH64 GAS  b.s                      page 2
+
+
+DEFINED SYMBOLS
+                 b.s:4      .text:0000000000000000 _start
+                 b.s:5      .text:0000000000000000 $x
+                 b.s:10     .text:000000000800000c far_v
+                 b.s:9      .text:000000000000000c $d
+
+NO UNDEFINED SYMBOLS

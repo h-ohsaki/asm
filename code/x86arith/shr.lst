@@ -1,0 +1,81 @@
+
+GAS LISTING shr.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4 0000 B103     		movb	$3, %cl			#                     cl:0x03
+   5              		## レジスタの値を論理右シフト
+   6 0002 B081     		movb	$0b10000001, %al	#                     al:10000001
+   7 0004 D0E8     		shrb	%al			# of:1 sf:0 zf:0 cf:1 al:01000000 
+   8 0006 C0E802   		shrb	$2, %al			# of:0 sf:0 zf:0 cf:0 al:00010000 
+   9 0009 D2E8     		shrb	%cl, %al		# of:0 sf:0 zf:0 cf:0 al:00000010 
+  10              		
+  11 000b 66B80180 		movw	$0x8001, %ax		#                     ax:0x8001
+  12 000f 66D1E8   		shrw	%ax			# of:1 sf:0 zf:0 cf:1 ax:0x4000
+  13 0012 66C1E802 		shrw	$2, %ax			# of:0 sf:0 zf:0 cf:0 ax:0x1000
+  14 0016 66D3E8   		shrw	%cl, %ax		# of:0 sf:0 zf:0 cf:0 ax:0x0200
+  15              	
+  16 0019 B8010000 		movl	$0x80000001, %eax	#                     eax:0x80000001
+  16      80
+  17 001e D1E8     		shrl	%eax			# of:1 sf:0 zf:0 cf:1 eax:0x40000000
+  18 0020 C1E802   		shrl	$2, %eax		# of:0 sf:0 zf:0 cf:0 eax:0x10000000
+  19 0023 D3E8     		shrl	%cl, %eax		# of:0 sf:0 zf:0 cf:0 eax:0x02000000
+  20              	
+  21              		## メモリ上の値を論理右シフト
+  22 0025 D02D0000 		shrb	val_b			# of:1 sf:0 zf:0 cf:1 val_b:0x40
+  22      0000
+  23 002b C02D0000 		shrb	$2, val_b		# of:0 sf:0 zf:0 cf:0 val_b:0x10
+  23      000002
+  24 0032 66D12D01 		shrw	val_w			# of:1 sf:0 zf:0 cf:1 val_w:0x4000
+  24      000000
+  25 0039 66D32D01 		shrw	%cl, val_w		# of:0 sf:0 zf:0 cf:0 val_w:0x0800
+  25      000000
+  26 0040 D12D0300 		shrl	val_l			# of:1 sf:0 zf:0 cf:1 val_l:0x40000000
+  26      0000
+  27 0046 D32D0300 		shrl	%cl, val_l		# of:0 sf:0 zf:0 cf:0 val_l:0x08000000
+  27      0000
+  28              	
+  29              		## レジスタの値を算術右シフト
+  30 004c B081     		movb	$0b10000001, %al	#                     al:10000001
+  31 004e D0F8     		sarb	%al			# of:0 sf:1 zf:0 cf:1 al:11000000 
+  32 0050 C0F802   		sarb	$2, %al			# of:0 sf:1 zf:0 cf:0 al:11110000 
+  33 0053 D2F8     		sarb	%cl, %al		# of:0 sf:1 zf:0 cf:0 al:11111110 
+  34              		
+  35 0055 66B80180 		movw	$0x8001, %ax		#                     ax:0x8001
+  36 0059 66D1F8   		sarw	%ax			# of:0 sf:1 zf:0 cf:1 ax:0xc000
+  37 005c 66C1F802 		sarw	$2, %ax			# of:0 sf:1 zf:0 cf:0 ax:0xf000
+  38 0060 66D3F8   		sarw	%cl, %ax		# of:0 sf:1 zf:0 cf:0 ax:0xfe00
+  39              	
+  40 0063 B8010000 		movl	$0x80000001, %eax	#                     eax:0x80000001
+  40      80
+  41 0068 D1F8     		sarl	%eax			# of:0 sf:1 zf:0 cf:1 eax:0xc0000000
+  42 006a C1F802   		sarl	$2, %eax		# of:0 sf:1 zf:0 cf:0 eax:0xf0000000
+  43 006d D3F8     		sarl	%cl, %eax		# of:0 sf:1 zf:0 cf:0 eax:0xfe000000
+  44              		
+  45              		## メモリ上の値を算術右シフト
+  46 006f D03D0000 		sarb	val_b			# of:0 sf:0 zf:0 cf:0 val_b:0x08
+  46      0000
+  47 0075 C03D0000 		sarb	$2, val_b		# of:0 sf:0 zf:0 cf:0 val_b:0x02
+  47      000002
+
+GAS LISTING shr.s 			page 2
+
+
+  48 007c 66D13D01 		sarw	val_w			# of:0 sf:0 zf:0 cf:0 val_w:0x0400
+  48      000000
+  49 0083 66D33D01 		sarw	%cl, val_w		# of:0 sf:0 zf:0 cf:0 val_w:0x0080
+  49      000000
+  50 008a D13D0300 		sarl	val_l			# of:0 sf:0 zf:0 cf:0 val_l:0x04000000
+  50      0000
+  51 0090 D33D0300 		sarl	%cl, val_l		# of:0 sf:0 zf:0 cf:0 val_l:0x00800000
+  51      0000
+  52              	
+  53 0096 B8010000 		movl	$1, %eax
+  53      00
+  54 009b CD80     		int	$0x80
+  55              		.data
+  56 0000 81       	val_b:	.byte	0b10000001
+  57 0001 0180     	val_w:	.word	0x8001
+  58 0003 01000080 	val_l:	.long	0x80000001

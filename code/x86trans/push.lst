@@ -1,0 +1,41 @@
+
+GAS LISTING push.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4              		## レジスタのプッシュ (16 ビット)
+   5 0000 6650     		pushw	%ax			# esp:0xffa1e44e
+   6 0002 6651     		pushw	%cx			# esp:0xffa1e44c
+   7 0004 6652     		pushw	%dx			# esp:0xffa1e44a
+   8 0006 6655     		pushw	%bp			# esp:0xffa1e448
+   9              		
+  10              		## レジスタのプッシュ (32 ビット)
+  11 0008 50       		pushl	%eax			# esp:0xffa1e444
+  12 0009 51       		pushl	%ecx			# esp:0xffa1e440
+  13 000a 52       		pushl	%edx			# esp:0xffa1e43c
+  14 000b 55       		pushl	%ebp			# esp:0xffa1e438
+  15              		
+  16              		## 即値のプッシュ
+  17 000c 66683412 		pushw	$0x1234			# esp:0xffa1e436
+  18 0010 68785634 		pushl	$0x12345678		# esp:0xffa1e432
+  18      12
+  19              		
+  20              		## メモリに格納されている値のプッシュ
+  21 0015 66FF3501 		pushw	val_w			# esp:0xffa1e430
+  21      000000
+  22 001c FF350300 		pushl	val_l			# esp:0xffa1e42c
+  22      0000
+  23 0022 B9030000 		movl	$3, %ecx		# esp:0xffa1e42c
+  23      00
+  24 0027 FFB10000 		pushl	val_b(%ecx)		# esp:0xffa1e428
+  24      0000
+  25              		
+  26 002d B8010000 		movl	$1, %eax
+  26      00
+  27 0032 CD80     		int	$0x80
+  28              		.data
+  29 0000 56       	val_b:	.byte	0x56
+  30 0001 7856     	val_w:	.word	0x5678
+  31 0003 EFCDAB89 	val_l:	.long	0x89abcdef

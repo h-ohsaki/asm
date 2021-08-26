@@ -1,0 +1,49 @@
+
+GAS LISTING shl.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:
+   4 0000 B103     		movb	$3, %cl			#                     cl:0x03
+   5              		## レジスタの値を左に論理左シフト
+   6 0002 B081     		movb	$0b10000001, %al	#                     al:10000001
+   7 0004 D0E0     		shlb	%al			# of:1 sf:0 zf:0 cf:1 al:00000010 
+   8 0006 C0E002   		shlb	$2, %al			# of:0 sf:0 zf:0 cf:0 al:00001000 
+   9 0009 D2E0     		shlb	%cl, %al		# of:0 sf:0 zf:0 cf:0 al:01000000 
+  10              		## 算術左シフトと論理シフトは同じ
+  11 000b B081     		movb	$0b10000001, %al	#                     al:10000001
+  12 000d D0E0     		salb	%al			# of:1 sf:0 zf:0 cf:1 al:00000010 
+  13 000f C0E002   		salb	$2, %al			# of:0 sf:0 zf:0 cf:0 al:00001000 
+  14 0012 D2E0     		salb	%cl, %al		# of:0 sf:0 zf:0 cf:0 al:01000000 
+  15              	
+  16 0014 66B80180 		movw	$0x8001, %ax		#                     ax:0x8001
+  17 0018 66C1E002 		shlw	$2, %ax			# of:1 sf:0 zf:0 cf:0 ax:0x0004
+  18 001c 66D3E0   		shlw	%cl, %ax		# of:0 sf:0 zf:0 cf:0 ax:0x0020
+  19              		
+  20 001f B8010000 		movl	$0x80000001, %eax	#                     eax:0x80000001
+  20      80
+  21 0024 C1E002   		shll	$2, %eax		#                     eax:0x00000004
+  22 0027 D3E0     		shll	%cl, %eax		#                     eax:0x00000020
+  23              		
+  24              		## メモリ上の値を論理左シフト
+  25 0029 D0250000 		shlb	val_b			# of:1 sf:0 zf:0 cf:1 val_b:0x02
+  25      0000
+  26 002f C0250000 		shlb	$2, val_b		# of:0 sf:0 zf:0 cf:0 val_b:0x08
+  26      000002
+  27 0036 66D12501 		shlw	val_w			# of:1 sf:0 zf:0 cf:1 val_w:0x0002
+  27      000000
+  28 003d 66D32501 		shlw	%cl, val_w		# of:0 sf:0 zf:0 cf:0 val_w:0x0010
+  28      000000
+  29 0044 D1250300 		shll	val_l			# of:1 sf:0 zf:0 cf:1 val_l:0x00000002
+  29      0000
+  30 004a D3250300 		shll	%cl, val_l		# of:0 sf:0 zf:0 cf:0 val_l:0x00000010
+  30      0000
+  31              	
+  32 0050 B8010000 		movl	$1, %eax
+  32      00
+  33 0055 CD80     		int	$0x80
+  34              		.data
+  35 0000 81       	val_b:	.byte	0b10000001
+  36 0001 0180     	val_w:	.word	0x8001
+  37 0003 01000080 	val_l:	.long	0x80000001

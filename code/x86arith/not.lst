@@ -1,0 +1,31 @@
+
+GAS LISTING not.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4              		## レジスタの値を論理否定
+   5 0000 B005     		movb	$0x05, %al		#                al:0x05
+   6 0002 F6D0     		notb	%al			# sf:0 zf:0 cf:0 al:0xfa
+   7 0004 66B8FFFF 		movw	$0xffff, %ax		#                ax:0xffff
+   8 0008 66F7D0   		notw	%ax			# sf:0 zf:0 cf:0 ax:0x0000
+   9 000b B8785634 		movl	$0x12345678, %eax	# sf:0 zf:0 cf:0 eax:0x12345678
+   9      12
+  10 0010 F7D0     		notl	%eax			# sf:0 zf:0 cf:0 eax:0xedcba987
+  11              	
+  12              		## メモリ上の値を論理否定
+  13 0012 F6150000 		notb	val_b			# sf:0 zf:0 cf:0 val_b:0xed
+  13      0000
+  14 0018 66F71501 		notw	val_w			# sf:0 zf:0 cf:0 val_w:0xedcb
+  14      000000
+  15 001f F7150300 		notl	val_l			# sf:0 zf:0 cf:0 val_l:0xedcba987
+  15      0000
+  16              	
+  17 0025 B8010000 		movl	$1, %eax
+  17      00
+  18 002a CD80     		int	$0x80
+  19              		.data
+  20 0000 12       	val_b:	.byte	0x12
+  21 0001 3412     	val_w:	.word	0x1234
+  22 0003 78563412 	val_l:	.long	0x12345678

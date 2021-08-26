@@ -1,0 +1,8 @@
+; 無限に再帰呼び出しを繰り返すプログラム
+MAIN	START
+	CALL	FUNC
+	RET
+	
+FUNC	CALL	FUNC		; 自分自身を呼び出す
+	RET
+	END

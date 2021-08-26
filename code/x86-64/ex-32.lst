@@ -1,0 +1,27 @@
+   1              		.text
+   2              		.global	_start
+   3              	_start:
+   4 0000 B012     		movb	$0x12, %al		# AL ← 0x12
+   5 0002 66B83412 		movw	$0x1234, %ax		# AX ← 0x1234
+   6 0006 B8785634 		movl	$0x12345678, %eax	# EAX ← 0x12345678
+   6      12
+   7 000b 88C3     		movb	%al, %bl		# BL ← <+> AL
+   8 000d 6689C3   		movw	%ax, %bx		# BX ← <+> AX
+   9 0010 89C3     		movl	%eax, %ebx		# EBX ← <+> EAX
+  10              		
+  11 0012 0412     		addb	$0x12, %al		# AL ← <+> 0x12
+  12 0014 66053412 		addw	$0x1234, %ax		# AX ← <+> 0x1234
+  13 0018 05785634 		addl	$0x12345678, %eax	# EAX ← <+> 0x12345678
+  13      12
+  14 001d 00C3     		addb	%al, %bl		# BL ← <+> AL
+  15 001f 6601C3   		addw	%ax, %bx		# BX ← <+> AX
+  16 0022 01C3     		addl	%eax, %ebx		# EBX ← <+> EAX
+  17              		
+  18 0024 B8010000 		movl	$1, %eax		# exit システムコールは 1 番
+  18      00
+  19 0029 CD80     		int	$0x80			# システムコール呼び出し
+
+DEFINED SYMBOLS
+             ex-32.s:3      .text:0000000000000000 _start
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,14 @@
+; 1〜100 の和を計算するプログラム	
+MAIN	START	
+	LAD	GR1, 0		; 合計
+	LAD	GR2, 1		; ループカウンタ 1〜100
+
+LOOP	CPA	GR2, =100	; GR2 > 100? (=100 はリテラル)
+	JPL	DONE
+
+	ADDA	GR1, GR2	; GR1 ← <+> GR2
+	LAD	GR2, 1, GR2	; GR1 を +1 する
+	JUMP	LOOP		; ループの繰り返し
+
+DONE	RET
+	END

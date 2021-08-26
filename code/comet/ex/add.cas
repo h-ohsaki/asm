@@ -1,0 +1,5 @@
+ADD	START
+	LAD	GR1, 123	; GR1 ← 123
+	ADDA	GR1, =456	; GR1 ← <+> 456
+	RET
+	END

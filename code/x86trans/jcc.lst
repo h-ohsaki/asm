@@ -1,0 +1,41 @@
+
+GAS LISTING jcc.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4 0000 A1000000 		movl	val_l, %eax		# eax:0x00000000
+   4      00
+   5 0005 83F864   		cmpl	$100, %eax		# sf:1 zf:0 cf:1
+   6 0008 7706     		ja	above100
+   7 000a 7206     		jb	below100
+   8 000c 7406     		je	equal100
+   9 000e EB06     		jmp	1f			# ここには到達しない
+  10              	above100:	
+  11              		## 100 より大きい時の処理
+  12 0010 EB04     		jmp	1f
+  13              	below100:
+  14              		## 100 より小さい時の処理
+  15 0012 EB02     		jmp	1f
+  16              	equal100:	
+  17              		## 100 と等しい時の処理
+  18 0014 EB00     		jmp	1f
+  19              	1:	
+  20 0016 833D0000 		cmpl	$0, val_l		# sf:0 zf:1 cf:0 val_l:0x00000000
+  20      000000
+  21 001d 7404     		jz	is_zero
+  22 001f 7504     		jnz	is_not_zero
+  23 0021 EB04     		jmp	2f
+  24              	is_zero:	
+  25              		## ゼロの時の処理
+  26 0023 EB02     		jmp 	2f
+  27              	is_not_zero:	
+  28              		## ゼロでない時の処理
+  29 0025 EB00     		jmp	2f
+  30              	2:	
+  31 0027 B8010000 		movl	$1, %eax
+  31      00
+  32 002c CD80     		int	$0x80
+  33              		.data
+  34 0000 00000000 	val_l:	.long	0

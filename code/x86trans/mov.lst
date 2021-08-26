@@ -1,0 +1,79 @@
+
+GAS LISTING mov.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4              		## レジスタへのコピー (8 ビット)
+   5 0000 B012     		movb	$0x12, %al		# al:0x12
+   6 0002 B434     		movb	$0x34, %ah		# ah:0x34
+   7 0004 88C1     		movb	%al, %cl		# cl:0x12
+   8 0006 8A150000 		movb	val_b, %dl		# dl:0x56
+   8      0000
+   9              		
+  10              		## メモリへのコピー (8 ビット)
+  11 000c C6050000 		movb	$0x01, val_b		# val_b:0x01
+  11      000001
+  12 0013 A2000000 		movb	%al, val_b		# val_b:0x12
+  12      00
+  13 0018 88250000 		movb	%ah, val_b		# val_b:0x34
+  13      0000
+  14              		
+  15              		## レジスタへのコピー (16 ビット)
+  16 001e 66B83412 		movw	$0x1234, %ax		# ax:0x1234
+  17 0022 6689C1   		movw	%ax, %cx		# cx:0x1234
+  18 0025 668B1501 		movw	val_w, %dx		# dx:0x5678
+  18      000000
+  19              		
+  20              		## メモリへのコピー (16 ビット)
+  21 002c 66C70501 		movw	$0x9abc, val_w		# val_w:0x9abc
+  21      000000BC 
+  21      9A
+  22 0035 66A30100 		movw	%ax, val_w		# val_w:0x1234
+  22      0000
+  23              	
+  24              		## レジスタへのコピー (32 ビット)
+  25 003b B8785634 		movl	$0x12345678, %eax	# eax:0x12345678
+  25      12
+  26 0040 89C1     		movl	%eax, %ecx		# ecx:0x12345678
+  27 0042 8B150300 		movl	val_l, %edx		# edx:0x89abcdef
+  27      0000
+  28              		
+  29              		## メモリへのコピー (32 ビット)
+  30 0048 C7050300 		movl	$0x89abcdef, val_l	# val_l:0x89abcdef
+  30      0000EFCD 
+  30      AB89
+  31 0052 A3030000 		movl	%eax, val_l		# val_l:0x12345678
+  31      00
+  32              		
+  33              		## 間接メモリ参照の例 (32 ビット)
+  34 0057 BA000000 		movl	$val_b, %edx
+  34      00
+  35              		## AL ← [EDX + 0]
+  36 005c 8A02     		movb	0(%edx), %al		# al:0x34
+  37              		## AX ← [EDX + 1]
+  38 005e 668B4201 		movw	1(%edx), %ax		# ax:0x1234
+  39              		## EAX ← [EDX + 3]
+  40 0062 8B4203   		movl	3(%edx), %eax		# eax:0x12345678
+  41 0065 B9030000 		movl	$3, %ecx		# ecx:0x00000003
+  41      00
+  42              		## EAX ← [val_b + ECX]
+
+GAS LISTING mov.s 			page 2
+
+
+  43 006a 8B810000 		movl	val_b(%ecx), %eax	# eax:0x12345678
+  43      0000
+  44              		## EAX ← [EDX + ECX]
+  45 0070 8B040A   		movl	(%edx,%ecx), %eax	# eax:0x12345678
+  46              		## EAX ← [EDX + ECX * 2]
+  47 0073 8A044A   		movb	(%edx,%ecx,2), %al	# al:0x12
+  48              		
+  49 0076 B8010000 		movl	$1, %eax
+  49      00
+  50 007b CD80     		int	$0x80
+  51              		.data
+  52 0000 56       	val_b:	.byte	0x56
+  53 0001 7856     	val_w:	.word	0x5678
+  54 0003 EFCDAB89 	val_l:	.long	0x89abcdef

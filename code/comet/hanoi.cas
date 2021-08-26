@@ -1,0 +1,58 @@
+MAIN	START
+	LAD	GR1, 5		; 円盤の数
+	LAD	GR2, #0041	; 出所の棒 'A'
+	LAD	GR3, #0042	; 宛先の棒 'B'
+	LAD	GR4, #0043	; 中間の棒 'C'
+	CALL	HANOI
+	RET
+
+; 「ハノイの塔」を解く
+; 入力	
+;   GR1: 円盤の数
+;   GR2: 移動元の棒 (例: 'A')
+;   GR3: 移動先の棒 (例: 'B')
+;   GR4: 中間の棒 (例: 'C')
+; 出力
+;   なし (円盤の移動手順を出力する)
+HANOI	RPUSH			; すべてのレジスタを退避
+	CPA	GR1, =1		; 円盤の数 == 1?
+	JNZ	ABOVE1
+	CALL	OUTPUT		; 「移動元 -> 移動先」を出力
+	JUMP	FINISH
+	
+ABOVE1	LAD	GR1, -1, GR1	; 円盤の数 を -1
+	PUSH	0, GR3		; GR3 と GR3 を退避
+	PUSH	0, GR4
+	LD	GR0, GR3	; GR3 と GR4 を交換
+	LD	GR3, GR4	; 「移動先」と「中間」を交換
+	LD	GR4, GR0
+	CALL	HANOI		; N - 1 枚を移動先の棒に移動
+	POP	GR4		; GR3 と GR4 を復元
+	POP	GR3
+	
+	CALL	OUTPUT		; 「移動元 -> 移動先」を出力
+
+	LD	GR0, GR2	; GR2 と GR4 を交換
+	LD	GR2, GR4	; 「移動元」と「中間」を交換
+	LD	GR4, GR0
+	CALL	HANOI		; N - 1 枚を中間の棒から移動
+
+FINISH	RPOP			; すべてのレジスタを復元
+	RET
+	
+; 「数字 -> 数字」という文字列を出力する
+; 入力	
+;   GR2: 左の文字 (例: 'A')
+;   GR3: 右の文字 (例: 'B')
+; 出力
+;   なし (文字列を出力する)
+OUTPUT	PUSH	0, GR1		; レジスタを退避
+	ST	GR2, OBUF	; 1 文字目を上書き
+	LAD	GR1, 5		; 6 文字目を上書き
+	ST	GR3, OBUF, GR1
+	OUT	OBUF, =6	; OUT マクロ呼び出し (=6 はリテラル)
+	POP	GR1		; レジスタを復元
+	RET
+OBUF	DC	'* -> *'	
+
+	END

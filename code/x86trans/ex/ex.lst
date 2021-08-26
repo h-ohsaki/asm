@@ -1,0 +1,53 @@
+   1              		.global	_start
+   2              		.text
+   3              	_start:
+   4              		## EAX の値を、EBX と ECX の両方にコピー
+   5 0000 B8785634 		mov	$0x12345678, %eax	# eax:0x12345678
+   5      12
+   6 0005 89C3     		mov	%eax, %ebx		# ebx:0x12345678
+   7 0007 89C1     		mov	%eax, %ecx		# ecx:0x12345678
+   8              		
+   9              		## EAX の下位 8 ビットを EBX の下位 8 ビットにコピー (上位ビットは不変)
+  10 0009 BB111111 		mov	$0x11111111, %ebx	# ebx:0x11111111
+  10      11
+  11 000e 88C3     		mov	%al, %bl		# ebx:0x11111178
+  12              		
+  13              		## EAX の下位 16 ビットを ESI の下位 16 ビットにコピー (上位ビットは不変)
+  14 0010 BE222222 		mov	$0x22222222, %esi	# esi:0x22222222
+  14      22
+  15 0015 6689C6   		mov	%ax, %si		# esi:0x22225678
+  16              		
+  17              		## EAX の下位 16 ビットを ECX の下位 16 ビットにコピー (上位ビットはゼロ  18 0018 B9333333 		mov	$0x33333333, %ecx	# ecx:0x12345678
+  18      33
+  19 001d 0FB7C8   		movzx	%ax, %ecx		# ecx:0x00005678
+  20              	
+  21              		## AX と BX の値を交換 (MOV 命令を使用)
+  22 0020 66B83412 		mov	$0x1234, %ax		# ax:0x1234
+  23 0024 66BB7856 		mov	$0x5678, %bx		# bx:0x5678
+  24 0028 6689C1   		mov	%ax, %cx		# ax:0x1234 bx:0x5678 cx:0x1234
+  25 002b 6689D8   		mov	%bx, %ax		# ax:0x5678 bx:0x5678 cx:0x1234
+  26 002e 6689CB   		mov	%cx, %bx		# ax:0x5678 bx:0x1234 cx:0x1234
+  27              	
+  28              		## AX と BX の値を交換 (XCHG 命令を使用)
+  29 0031 66B83412 		mov	$0x1234, %ax		# ax:0x1234
+  30 0035 66BB7856 		mov	$0x5678, %bx		# bx:0x5678
+  31 0039 6693     		xchg	%ax, %bx		# ax:0x5678 bx:0x1234
+  32              		
+  33              		## 「pushl $123」と同じ処理 (MOV 命令、ADD 命令を使用)
+  34 003b 83C4FC   		addl	$-4, %esp		# esp:0xffffd57c
+  35 003e C704247B 		movl	$123, (%esp)
+  35      000000
+  36              		
+  37              		## 「pushl $123」と同じ処理 (MOV 命令、LEA 命令を使用)
+  38 0045 8D6424FC 		lea	-4(%esp), %esp		# esp:0xffffd578
+  39 0049 C704247B 		movl	$123, (%esp)
+  39      000000
+  40              		## 「pop %eax」と同じ処理 (MOV 命令、ADD 命令を使用)
+  41 0050 8B0424   		movl	(%esp), %eax		# eax:0x0000007b
+  42 0053 83C404   		addl	$4, %esp		# esp:0xffffd57c
+  43              	
+  44 0056 B8010000 		movl	$1, %eax
+  44      00
+  45 005b CD80     		int	$0x80
+  46              		.data
+  47 0000 00000000 	v:	.long	0

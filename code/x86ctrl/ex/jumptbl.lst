@@ -1,0 +1,30 @@
+   1              		.global	_start
+   2              		.text
+   3              	_start:
+   4              		## jumptbl の先頭のエントリにジャンプ (L1 にジャンプする)
+   5 0000 FF250000 		jmp	*jumptbl		
+   5      0000
+   6              		## jumptbl の 2 番目のエントリにジャンプ (L3 にジャンプする)
+   7 0006 FF250800 		jmp	*(jumptbl + 2 * 4)
+   7      0000
+   8              		## jumptbl の ECX 番目のエントリにジャンプ (L5 にジャンプする)
+   9 000c B9040000 		mov	$4, %ecx
+   9      00
+  10 0011 FF248D00 		jmp	*jumptbl(,%ecx,4)	# メモリロケーション = jumptbl + ECX*4
+  10      000000
+  11 0018 90       	L1:	nop
+  12 0019 90       	L2:	nop
+  13 001a 90       	L3:	nop
+  14 001b 90       	L4:	nop
+  15 001c 90       	L5:	nop
+  16 001d B8010000 	        movl    $1, %eax
+  16      00
+  17 0022 CD80     	        int     $0x80
+  18              		
+  19              	        .data
+  20              	jumptbl:				# ジャンプテーブル (32 ビット x 5)
+  21 0000 18000000 		.long	L1
+  22 0004 19000000 		.long	L2
+  23 0008 1A000000 		.long	L3
+  24 000c 1B000000 		.long	L4
+  25 0010 1C000000 		.long	L5

@@ -1,0 +1,53 @@
+
+GAS LISTING div.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4              		## レジスタとの除算: AL ← AX / CL
+   5 0000 66B80101 		movw	$0x0101, %ax 		# ax:0x0101
+   6 0004 B102     		movb	$0x02, %cl 		# cl:0x02
+   7 0006 F6F1     		divb	%cl 			# al:0x80 ah:0x01
+   8              	
+   9              		## レジスタとの除算: AX ← DX:AX
+  10 0008 66BA0100 		movw	$0x0001, %dx 		# dx:0x0001
+  11 000c 66B80100 		movw	$0x0001, %ax 		# ax:0x0001
+  12 0010 66B90200 		movw	$0x0002, %cx 		# cx:0x0002
+  13 0014 66F7F1   		divw	%cx 			# ax:0x8000 dx:0x0001
+  14              		
+  15              		## レジスタとの乗算: EAX ← EDX:EAX / ECX
+  16 0017 BA010000 		movl	$0x00000001, %edx	# edx:0x00000001
+  16      00
+  17 001c B8010000 		movl	$0x00000001, %eax	# eax:0x00000001
+  17      00
+  18 0021 B9020000 		movl	$0x00000002, %ecx 	# ecx:0x00000002
+  18      00
+  19 0026 F7F1     		divl	%ecx 			# eax:0x80000000 edx:0x00000001
+  20              	
+  21              		## メモリの値との除算: AL ← AX / [val_b]
+  22 0028 66B80101 		movw	$0x0101, %ax 		# ax:0x0101
+  23 002c F6350000 		divb	val_b 			# al:0x55 ah:0x02
+  23      0000
+  24              	
+  25              		## メモリの値との除算: AX ← DX:AX / [val_w]
+  26 0032 66BA0100 		movw	$0x0001, %dx 		# dx:0x0001
+  27 0036 66B80100 		movw	$0x0001, %ax 		# ax:0x0001
+  28 003a 66F73501 		divw	val_w 			# ax:0x5555 dx:0x0002
+  28      000000
+  29              		
+  30              		## メモリの値との除算: EAX ← EDX:EAX / [val_l]
+  31 0041 BA010000 		movl	$0x00000001, %edx	# edx:0x00000001
+  31      00
+  32 0046 B8010000 		movl	$0x00000001, %eax	# eax:0x00000001
+  32      00
+  33 004b F7350300 		divl	val_l			# eax:0x55555555 edx:0x00000002
+  33      0000
+  34              		
+  35 0051 B8010000 		movl	$1, %eax
+  35      00
+  36 0056 CD80     		int	$0x80
+  37              		.data
+  38 0000 03       	val_b:	.byte	0x03
+  39 0001 0300     	val_w:	.word	0x0003
+  40 0003 03000000 	val_l:	.long	0x00000003

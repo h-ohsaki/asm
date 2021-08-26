@@ -1,0 +1,8 @@
+CMP	START
+	LAD	GR1, 100	; GR1 ← 100
+	LAD	GR2, 0		; GR2 ← 1
+	CPL	GR1, =123	; GR1 >= 123?
+	JMI	FIN		; PC ← FIN if SF==1
+	LAD	GR2, 1		; GR2 ← 1
+FIN	RET
+	END

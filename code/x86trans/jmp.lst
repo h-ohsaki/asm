@@ -1,0 +1,27 @@
+
+GAS LISTING jmp.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4 0000 EB02     		jmp	L1			# L1:0x08049004
+   5 0002 90       		nop
+   6 0003 90       		nop
+   7              	L1:					# L1:0x08049004
+   8 0004 B80D0000 		movl	$L2, %eax		# eax:0x0804900d
+   8      00
+   9 0009 FFE0     		jmp	*%eax
+  10 000b 90       		nop
+  11 000c 90       		nop
+  12              	L2:					# L2:00x804900d
+  13 000d FF250000 		jmp	*val_l			# val_l:0x08049015
+  13      0000
+  14 0013 90       		nop
+  15 0014 90       		nop
+  16              	L3:					# 0x8049015
+  17 0015 B8010000 		movl	$1, %eax
+  17      00
+  18 001a CD80     		int	$0x80
+  19              		.data
+  20 0000 15000000 	val_l:	.long	L3

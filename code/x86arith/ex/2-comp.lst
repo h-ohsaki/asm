@@ -1,0 +1,25 @@
+
+GAS LISTING 2-comp.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4              		## EAX ← 0x1234 の 2 の補数
+   5 0000 B8341200 		mov	$0x1234, %eax		# eax:0x00001234
+   5      00
+   6 0005 F7D0     		not	%eax			# eax:0xffffedcb
+   7 0007 40       		inc	%eax			# eax:0xffffedcc
+   8              		
+   9              		## EBX ← 0x1234 の 2 の補数
+  10 0008 B8341200 		mov	$0x1234, %eax		# eax:0x00001234
+  10      00
+  11 000d BB000000 		mov 	$0, %ebx		# ebx:0x00000000
+  11      00
+  12 0012 29C3     		sub	%eax, %ebx		# ebx:0xffffedcc
+  13              	
+  14 0014 B8010000 		movl	$1, %eax
+  14      00
+  15 0019 CD80     		int	$0x80
+  16              		.data
+  17 0000 00       	v:	.byte	0

@@ -1,0 +1,24 @@
+   1              		.text
+   2              	main:
+   3 0000 56       		pushl	%esi			# SP ← <-> 4, [SP] ← ESI
+   4 0001 53       		pushl	%ebx			# SP ← <-> 4, [SP] ← EBX
+   5              		## i = 123
+   6 0002 BE7B0000 		movl	$123, %esi		# ESI ← 123
+   6      00
+   7              		## i = i + 1
+   8 0007 83C601   		addl	$1, %esi		# ESI ← <+> 1
+   9              		## j = 456
+  10 000a BBC80100 		movl	$456, %ebx		# EBX ← 456
+  10      00
+  11              		## j = i + j
+  12 000f 01F3     		addl	%esi, %ebx		# EBX ← <+> ESI
+  13              		## return j
+  14 0011 89D8     		movl	%ebx, %eax		# EAX ← EBX
+  15 0013 5B       		popl	%ebx			# RBX ← [SP], SP ← <+> 4
+  16 0014 5E       		popl	%esi			# ESI ← [SP], SP ← <+> 4
+  17 0015 C3       		ret				# EIP ← [SP], SP ← <+> 4
+
+DEFINED SYMBOLS
+           add-32.ss:2      .text:0000000000000000 main
+
+NO UNDEFINED SYMBOLS

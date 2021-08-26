@@ -1,0 +1,69 @@
+; エラストテネスの篩 (ふるい)	
+MAIN	START
+	LAD	GR1, 2			; i = 2
+OUTER	CPA	GR1, N			; i <= N?
+	JPL	ODONE
+		
+	LD	GR0, A, GR1		; A[i]
+	JNZ	ONEXT			; if (A[i])
+	LD	GR2, GR1		; j = i + i
+	ADDA	GR2, GR1
+	
+INNER	CPA	GR2, N			; i <= N?
+	JPL	ONEXT
+	LAD	GR0, 1			; A[j] = 1
+	ST	GR0, A, GR2
+	ADDA	GR2, GR1		; j += i
+	JUMP	INNER
+		
+ONEXT	LAD	GR1, 1, GR1		; i++
+	JUMP	OUTER
+	
+ODONE	LAD	GR1, 2			; i = 2
+PLOOP	CPA	GR1, N			; i <= N
+	JPL	DONE
+	LD	GR0, A, GR1		; if (A[i] == 0)
+	JNZ	PNEXT
+	CALL	PRTDEC			; GR1 レジスタの値を出力
+PNEXT	LAD	GR1, 1, GR1		; i++
+	JUMP	PLOOP
+	
+DONE	RET	
+		
+N	DC	100			; 判定する数の最大値
+A	DS 	101			; 素数であれば 0、素数でなければ 1
+
+; GR1 レジスタの値を 10 進数で出力する
+; 入力
+;   GR1: 出力する値
+PRTDEC	PUSH	0, GR1
+	PUSH	0, GR2
+	PUSH	0, GR3
+	PUSH	0, GR4
+	LAD	GR2, 0		; ループカウンタ
+	
+DGTLOOP	LD	GR3, UNITS, GR2	; 桁の値 (例: 1000)
+	LAD	GR4, #0030	; 文字コード (例: '0')
+
+CNTLOOP	CPA	GR1, GR3	; まだ引けるか?
+	JMI	WRITCHR
+	SUBA	GR1, GR3
+	LAD	GR4, 1, GR4	; 文字コード + 1
+	JUMP	CNTLOOP
+	
+WRITCHR	ST	GR4, BUF, GR2	; 文字をバッファに格納
+	LAD	GR2, 1, GR2	; ループカウンタを +1
+	CPA	GR2, =5		; ループ終了? (=5 はリテラル)
+	JMI	DGTLOOP
+	
+	OUT	BUF, =5		; バッファを出力 (=5 はリテラル)
+	POP	GR4
+	POP	GR3
+	POP	GR2
+	POP	GR1
+	RET
+
+UNITS	DC	10000, 1000, 100, 10, 1	; 各桁の値のリスト
+BUF	DS	5		; 出力バッファ
+	
+	END

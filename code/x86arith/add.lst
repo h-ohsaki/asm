@@ -1,0 +1,66 @@
+
+GAS LISTING add.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:	
+   4 0000 B8785634 		movl	$0x12345678, %eax	#                eax:0x12345678
+   4      12
+   5              		# レジスタに即値を加算
+   6              						# sf:0 zf:0 cf:0 al:0x78
+   7 0005 0412     		addb	$0x12, %al		# sf:1 zf:0 cf:0 al:0x8a
+   8              						#                ax:0x568a
+   9 0007 66053412 		addw	$0x1234, %ax		# sf:0 zf:0 cf:0 ax:0x68be
+  10              						#                eax:0x123468be
+  11 000b 05000000 		addl	$0x80000000, %eax	# sf:1 zf:0 cf:0 eax:0x923468be
+  11      80
+  12 0010 B9443322 		movl	$0x11223344, %ecx	#                ecx:0x11223344
+  12      11
+  13              						# sf:1 zf:0 cf:0 cl:0x44
+  14 0015 80C1BC   		addb	$0xbc, %cl		# sf:0 zf:1 cf:1 cl:0x00
+  15              						#                cx:0x3300
+  16 0018 6683C1FF 		addw	$0xffff, %cx		# sf:0 zf:0 cf:1 cx:0x32ff
+  17              						#                ecx:0x112232ff
+  18 001c 83C103   		addl	$0x03, %ecx		# sf:0 zf:0 cf:0 ecx:0x11223302
+  19              		# レジスタにレジスタの値を加算
+  20              						#                al:0xbe cl:0x02
+  21 001f 00C8     		addb	%cl, %al		# sf:1 zf:0 cf:0 al:0xc0
+  22              						#                ax:0x68c0 cx:0x3302
+  23 0021 6601C8   		addw	%cx, %ax		# sf:1 zf:0 cf:0 ax:0x9bc2
+  24              						#                eax:0x92349bc2 ecx:0x11223302
+  25 0024 01C8     		addl	%ecx, %eax		# sf:1 zf:0 cf:0 eax:0xa356cec4
+  26              		# レジスタにメモリの値を加算
+  27              						#                al:0xc4
+  28 0026 02050000 		addb	val_b, %al		# sf:1 zf:0 cf:0 al:0xd6
+  28      0000
+  29              						#                ax:0xced6
+  30 002c 66030501 		addw	val_w, %ax		# sf:1 zf:0 cf:0 ax:0xe10a
+  30      000000
+  31              						#                eax:0xa356e10a
+  32 0033 03050300 		addl	val_l, %eax		# sf:1 zf:0 cf:0 eax:0xb58b3782
+  32      0000
+  33              		# メモリの値にレジスタの値を加算
+  34 0039 B8302000 		movl	$0x10002030, %eax
+  34      10
+  35              						#                val_b:0x12
+  36 003e 00050000 		addb	%al, val_b		# sf:0 zf:0 cf:0 val_b:0x42
+  36      0000
+  37              						#                val_w:0x1234
+  38 0044 66010501 		addw	%ax, val_w		# sf:0 zf:0 cf:0 val_w:0x3264
+  38      000000
+  39              						#                val_l:0x12345678
+  40 004b 01050300 		addl	%eax, val_l		# sf:0 zf:0 cf:0 val_l:0x223476a8
+  40      0000
+  41              		
+  42 0051 B8010000 		movl	$1, %eax
+  42      00
+  43 0056 CD80     		int	$0x80
+  44              		.data
+  45 0000 12       	val_b:	.byte	0x12
+  46 0001 3412     	val_w:	.word	0x1234
+
+GAS LISTING add.s 			page 2
+
+
+  47 0003 78563412 	val_l:	.long	0x12345678

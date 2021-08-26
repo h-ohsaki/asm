@@ -1,0 +1,23 @@
+
+GAS LISTING reg-copy.s 			page 1
+
+
+   1              		.global	_start
+   2              		.text
+   3              	_start:
+   4              		## レジスタ ESP の値を EAX にコピーする
+   5 0000 89E0     		mov	%esp, %eax
+   6              		## レジスタ EIP の値を EAX にコピーする
+   7              		## 普通の方法ではコピーできないので、そのためのサブルーチンを用い   8 0002 E8070000 		call	get_eip	
+   8      00
+   9              		
+  10 0007 B8010000 	        movl    $1, %eax
+  10      00
+  11 000c CD80     	        int     $0x80
+  12              	get_eip:	
+  13              		## スタックのトップに格納されているリターンアドレスを取り出す
+  14 000e 8B0424   		mov	(%esp), %eax
+  15 0011 C3       		ret
+  16              	
+  17              	        .data
+  18 0000 00000000 	v:	.long   0
