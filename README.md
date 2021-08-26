@@ -20,41 +20,9 @@
 
 本書で使用しているツールやライブラリ一式をインストールした Docker コンテナを、
 Docker Hub 上で公開しています。
+詳細については以下を参照してください。
 
-- Debian GNU/Linux (bullseye) (i386) (32 ビット版)
-
-    https://hub.docker.com/r/hohsaki/asm-i386
-
-- Debian GNU/Linux (bullseye) (amd64) (64 ビット版)
-
-    https://hub.docker.com/r/hohsaki/asm
-
-IA-32 アーキテクチャ、COMET II、AVR アーキテクチャ、Armv8-A アーキテク
-チャ向けのコンパイルやアセンブルには 32 ビット版をご利用ください。
-
-Intel 64 アーキテクチャ向けのコンパイルやアセンブルには 64 ビット版を
-ご利用ください。
-
-Docker が利用できる環境であれば、
-GNU/Linux、
-macOS、
-Windows いずれのオペレーティングシステムでも上記のコンテナを利用できます。
-ただし、
-コンテナのアーキテクチャが i386 および amd64 ですので、
-インテルもしくは AMD の CPU を搭載したコンピュータが必要です。
-
-Docker エンジンを動作させているホストコンピュータが 64 ビット (x86-64/amd64) でも、
-32 ビット版のコンテナを動作させることができます。
-したがって、
-例えば 64 ビット版の Windows 上で、
-32 ビット版 (i386) の Docker コンテナ (asm-i386) を利用できます。
-
-Docker のインストール方法や利用法については、
-以下のページをご覧ください。
-
-- docker docs
-
-    https://docs.docker.com/
+https://github.com/h-ohsaki/modern-asm/blob/master/Docker.md
 
 ## 章末問題への回答
 
