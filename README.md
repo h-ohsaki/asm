@@ -1,4 +1,4 @@
-# 「独習アセンブラ」 (翔泳社) サポートページ
+# 「独習アセンブラ (翔泳社)」サポートページ
 
 ## プログラムのソースコード
 
@@ -16,6 +16,12 @@
 
     https://github.com/h-ohsaki/asm/raw/master/code-210828.zip
 
+## 章末問題への回答
+
+翔泳社のページをご覧ください (掲載予定)。
+
+https://www.shoeisha.co.jp/
+
 ## 正誤表
 
 翔泳社のページをご覧ください (掲載予定)。
@@ -29,6 +35,13 @@ https://www.shoeisha.co.jp/book/errata/
 
 https://www.shoeisha.co.jp/book/qa/
 
-## 関連情報
-
 ## 掲示板
+
+本書に関する掲示板として、Discussions
+(https://github.com/h-ohsaki/asm/discussions) をご利用いただけます。
+
+## その他
+
+- org ファイル
+
+    https://github.com/h-ohsaki/modern-asm
