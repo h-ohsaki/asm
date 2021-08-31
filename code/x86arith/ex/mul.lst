@@ -5,20 +5,20 @@ GAS LISTING mul.s 			page 1
    1              		.global	_start
    2              		.text
    3              	_start:	
-   4              		## EAX ← <*> EAX (ADD 命令のみ)
+   4              		## EAX ← <*> 4 (ADD 命令のみ)
    5 0000 B8110000 		mov	$0x11, %eax		# eax:0x00000011
    5      00
    6 0005 01C0     		add	%eax, %eax		# eax:0x00000022
    7 0007 01C0     		add	%eax, %eax		# eax:0x00000044
    8              		
-   9              		## EAX ← <*> EAX (MOV 命令と MUL 命令)
+   9              		## EAX ← <*> 4 (MOV 命令と MUL 命令)
   10 0009 B8110000 		mov	$0x11, %eax		# eax:0x00000011
   10      00
   11 000e BB040000 		mov	$4, %ebx		# ebx:0x00000004
   11      00
   12 0013 F7E3     		mul	%ebx			# eax:0x00000044
   13              		
-  14              		## EAX ← <*> EAX (MOV 命令と SHL 命令)
+  14              		## EAX ← <*> 4 (MOV 命令と SHL 命令)
   15 0015 B8110000 		mov	$0x11, %eax		# eax:0x00000011
   15      00
   16 001a B102     		mov	$2, %cl			# cl:0x02
