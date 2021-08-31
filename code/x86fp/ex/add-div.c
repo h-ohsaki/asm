@@ -4,6 +4,6 @@ double x3 = 7.8;
 
 int main(void)
 {
-	double z = x1 + x2 - x3;
+	double z = (x1 + x2) / x3;
 	return 0;
 }
