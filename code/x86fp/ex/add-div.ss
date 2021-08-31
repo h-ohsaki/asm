@@ -19,7 +19,7 @@ main:
 	fldl	x2
 	faddp	%st, %st(1)
 	fldl	x3
-	fsubrp	%st, %st(1)
+	fdivrp	%st, %st(1)
 	fstpl	8(%esp)
 	movl	$0, %eax
 	leave
