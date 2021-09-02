@@ -1,7 +1,7 @@
 ; 123 + 456 を計算するプログラム
 MAIN	START
 	LD	GR1, V		; GR1 ← [V] (アドレス V から読み込み)
-	LAD	GR2, 456	; GR2 ← 456 (実効アドレスによる読み込み)
+	LAD	GR2, 456	; GR2 ← 456 (実効アドレスの読み込み)
 	ADDA	GR1, GR2	; GR1 ← <+> GR2
 	ST	GR1, V		; [V] ← GR1 (アドレス V に書き込み)
 	RET

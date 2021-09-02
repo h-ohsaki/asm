@@ -5,7 +5,7 @@
 
 for i in /usr/bin/*
 do
-    # ELF 形式のプログラムをインテル構文で逆アセンブルする
+    # ELF 形式のプログラムを逆アセンブルする
     file $i | grep ELF >/dev/null && objdump -d $i
 done | 
     # 命令のニーモニックを抽出

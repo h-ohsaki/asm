@@ -1,7 +1,7 @@
    1              		.text
    2              	main:
-   3 0000 55       		pushq	%rbp			# SP ← <-> 8, [SP] ← RBP
-   4 0001 53       		pushq	%rbx			# SP ← <-> 8, [SP] ← RBX
+   3 0000 55       		pushq	%rbp			# RSP ← <-> 8, [RSP] ← RBP
+   4 0001 53       		pushq	%rbx			# RSP ← <-> 8, [RSP] ← RBX
    5              		## i = 123
    6 0002 BD7B0000 		movl	$123, %ebp		# EBP ← 123
    6      00
@@ -14,9 +14,9 @@
   12 000f 01EB     		addl	%ebp, %ebx		# EBX ← <+> EBP
   13              		## return j
   14 0011 89D8     		movl	%ebx, %eax		# EAX ← EBX
-  15 0013 5B       		popq	%rbx			# RBX ← [SP], SP ← <+> 8
-  16 0014 5D       		popq	%rbp			# RBP ← [SP], SP ← <+> 8
-  17 0015 C3       		ret				# RIP ← [SP], SP ← <+> 8
+  15 0013 5B       		popq	%rbx			# RBX ← [RSP], RSP ← <+> 8
+  16 0014 5D       		popq	%rbp			# RBP ← [RSP], RSP ← <+> 8
+  17 0015 C3       		ret				# RIP ← [RSP], RSP ← <+> 8
 
 DEFINED SYMBOLS
               add.ss:2      .text:0000000000000000 main

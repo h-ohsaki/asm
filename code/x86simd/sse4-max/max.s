@@ -5,7 +5,7 @@ _start:
 	## vec1から16バイト(128ビット)をXMM0に読み込み
 	movdqa	vec1, %xmm0  		# XMM0 ← [vec1]
 	## XMM0とvec2の各要素の最大値をXMM0に保存
-	pmaxsb	vec2, %xmm0		# XMM0 ← max(XMM0, vec2)
+	pmaxsb	vec2, %xmm0		# XMM0 ← max(XMM0, [vec2])
 	
 	movl	$1, %eax		# システムコール 1 番は exit
 	int	$0x80			# システムコール呼び出し

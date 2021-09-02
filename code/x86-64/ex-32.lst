@@ -5,9 +5,9 @@
    5 0002 66B83412 		movw	$0x1234, %ax		# AX ← 0x1234
    6 0006 B8785634 		movl	$0x12345678, %eax	# EAX ← 0x12345678
    6      12
-   7 000b 88C3     		movb	%al, %bl		# BL ← <+> AL
-   8 000d 6689C3   		movw	%ax, %bx		# BX ← <+> AX
-   9 0010 89C3     		movl	%eax, %ebx		# EBX ← <+> EAX
+   7 000b 88C3     		movb	%al, %bl		# BL ← AL
+   8 000d 6689C3   		movw	%ax, %bx		# BX ← AX
+   9 0010 89C3     		movl	%eax, %ebx		# EBX ← EAX
   10              		
   11 0012 0412     		addb	$0x12, %al		# AL ← <+> 0x12
   12 0014 66053412 		addw	$0x1234, %ax		# AX ← <+> 0x1234

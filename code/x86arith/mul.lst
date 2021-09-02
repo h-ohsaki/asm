@@ -5,7 +5,7 @@ GAS LISTING mul.s 			page 1
    1              		.global	_start
    2              		.text
    3              	_start:	
-   4              		# レジスタとの乗算: AX ← AL * C
+   4              		# レジスタとの乗算: AX ← AL * CL
    5 0000 B012     		movb	$0x12, %al		# al:0x12
    6 0002 B134     		movb	$0x34, %cl		# cl:0x34
    7 0004 F6E1     		mulb	%cl			# of:1 cf:1 ax:0x03a8

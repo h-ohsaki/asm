@@ -1,7 +1,7 @@
    1              		.text
    2              	main:
-   3 0000 56       		pushl	%esi			# SP ← <-> 4, [SP] ← ESI
-   4 0001 53       		pushl	%ebx			# SP ← <-> 4, [SP] ← EBX
+   3 0000 56       		pushl	%esi			# ESP ← <-> 4, [ESP] ← ESI
+   4 0001 53       		pushl	%ebx			# ESP ← <-> 4, [ESP] ← EBX
    5              		## i = 123
    6 0002 BE7B0000 		movl	$123, %esi		# ESI ← 123
    6      00
@@ -14,9 +14,9 @@
   12 000f 01F3     		addl	%esi, %ebx		# EBX ← <+> ESI
   13              		## return j
   14 0011 89D8     		movl	%ebx, %eax		# EAX ← EBX
-  15 0013 5B       		popl	%ebx			# RBX ← [SP], SP ← <+> 4
-  16 0014 5E       		popl	%esi			# ESI ← [SP], SP ← <+> 4
-  17 0015 C3       		ret				# EIP ← [SP], SP ← <+> 4
+  15 0013 5B       		popl	%ebx			# EBX ← [ESP], ESP ← <+> 4
+  16 0014 5E       		popl	%esi			# ESI ← [ESP], ESP ← <+> 4
+  17 0015 C3       		ret				# EIP ← [ESP], ESP ← <+> 4
 
 DEFINED SYMBOLS
            add-32.ss:2      .text:0000000000000000 main

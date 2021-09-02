@@ -10,7 +10,7 @@ main:
 	mov	w2, 123				// W2 ← 123
 	str	w2, [x0, #:lo12:.LANCHOR0]	// [i] ← W2
 	ldr	w2, [x0, #:lo12:.LANCHOR0]	// W2 ← [i]
-	// i =  + 1
+	// i =  i + 1
 	add	w2, w2, 1			// W2 ← <+> 1
 	str	w2, [x0, #:lo12:.LANCHOR0]	// [i] ← W2
 	// j = 456

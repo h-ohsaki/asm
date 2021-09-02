@@ -4,7 +4,7 @@ fact:
         subl    $8, %esp                # ESP ← <-> 8
         movl    16(%esp), %ebx          # EBX ← [ESP + 16]
 	## if (n == 1)
-        cmpl    $1, %ebx                # 1 == EBX?
+        cmpl    $1, %ebx                # EBX == 1?
         jne     .L4                     # EIP ← .L4
 .L2:
 	## return
@@ -24,7 +24,7 @@ fact:
 main:
         leal    4(%esp), %ecx           # ECX ← ESP + 4
         andl    $-16, %esp              # ESP ← <&> 0xfffffff0
-        pushl   -4(%ecx)                # ESP ← <-> 4, [ESP] ← ECX - 4
+        pushl   -4(%ecx)                # ESP ← <-> 4, [ESP] ← [ECX - 4]
         pushl   %ebp                    # ESP ← <-> 4, [ESP] ← EBP
         movl    %esp, %ebp              # EBP ← ESP
         pushl   %ecx                    # ESP ← <-> 4, [ESP] ← ECX

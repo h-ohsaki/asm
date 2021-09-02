@@ -24,7 +24,7 @@ Docker Hub 上で公開しています。
 
 ## 章末問題への回答
 
-[翔泳社のページ](https://www.shoeisha.co.jp/book/) をご覧ください (掲載予定)。
+[翔泳社のページ](https://www.shoeisha.co.jp/book/download/9784798170299) からダウンロードできます。
 
 ## 正誤表
 

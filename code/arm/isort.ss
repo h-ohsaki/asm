@@ -5,14 +5,14 @@
 //   返り値: W0
 main:
 	// int i = 1
-	mov	w5, 1			// PC ← .L2
-	b	.L2
+	mov	w5, 1			// W5 ← 1
+	b	.L2			// PC ← .L2
 .L4:
 	// int tmp = a[j]; a[j] = a[j - 1]; a[j - 1] = tmp
 	adrp	x1, .LANCHOR0		// X1 ← a & 0xfffffffffffff000  ページアドレス
-	add	x1, x1, :lo12:.LANCHOR0	// X1 ← <+> a & 0xfff
-	str	w4, [x1, w0, sxtw 2]	// [X1 + X0 << 2] ← W4
-	str	w3, [x1, w2, sxtw 2]	// [X1 + W2 << 2] ← W3
+	add	x1, x1, :lo12:.LANCHOR0	// X1 ← <+> (a & 0xfff)
+	str	w4, [x1, w0, sxtw 2]	// [X1 + (X0 << 2)] ← W4
+	str	w3, [x1, w2, sxtw 2]	// [X1 + (W2 << 2)] ← W3
 	// j = j - 1
 	mov	w0, w2			// W0 ← W2
 .L5:
@@ -22,9 +22,9 @@ main:
 	// a[j - 1] > a[j]
 	sub	w2, w0, #1		// W2 ← W0 - 1
 	adrp	x1, .LANCHOR0		// X1 ← a & 0xfffffffffffff000 ページアドレス
-	add	x1, x1, :lo12:.LANCHOR0	// X1 ← <+> a & 0xfff
-	ldr	w4, [x1, w2, sxtw 2]	// W4 ← [X1 + W2 << 2]
-	ldr	w3, [x1, w0, sxtw 2]	// W3 ← [X1 + W0 << 2]
+	add	x1, x1, :lo12:.LANCHOR0	// X1 ← <+> (a & 0xfff)
+	ldr	w4, [x1, w2, sxtw 2]	// W4 ← [X1 + (W2 << 2)]
+	ldr	w3, [x1, w0, sxtw 2]	// W3 ← [X1 + (W0 << 2)]
 	cmp	w4, w3			// W4 == W3?
 	bgt	.L4			// より大きければ PC ← .L4
 .L3:
